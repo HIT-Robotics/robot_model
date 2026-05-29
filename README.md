@@ -21,7 +21,7 @@ Define constraints directly in the URDF -> solve dependent joints automatically 
 ## Supported Constraints
 - Fixed (cut link)
 - Revolute (using parent axis)
-- Spherical (no constrained axes)
+- Spherical (no axes)
 
 ## Architecture
 - **URDF (extended)** -> parsed via custom `urdfdom`
@@ -72,4 +72,5 @@ Fabian.Finkbeiner@hs-heilbronn.de
 
 ## Acknowledgment
 Developed by the Robotics Lab at Heilbronn University of Applied Sciences
+
 Supported by autonox Robotics GmbH
