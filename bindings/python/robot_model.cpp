@@ -103,7 +103,16 @@ void exportRobotModel(py::module_ &m) {
       })
       .def_property_readonly("njoints", [](RobotModel &self) {
           return self.getModel().njoints;
-      });
+      })
+      .def("getFrameTransform", [](const RobotModel &self, const std::string &frame_name) {
+          const auto& model = self.getModel();
+          const auto& data = self.getData();
+          if (!model.existFrame(frame_name)) {
+              throw std::invalid_argument("Frame " + frame_name + " does not exist");
+          }
+          auto frame_id = model.getFrameId(frame_name);
+          return data.oMf[frame_id].toHomogeneousMatrix();
+      }, py::arg("frame_name"));
 
   // levenberg-marquardt
   m.def("levenbergMarquardt",
