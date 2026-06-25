@@ -92,9 +92,10 @@ void exportRobotModel(py::module_ &m) {
       .def("q_state", [](RobotModel &self) { return self.q_state(); })
       .def("motionToStateJoint", &RobotModel::motionToStateJoint)
       .def("stateToMotionJoint", &RobotModel::stateToMotionJoint)
-      .def("updateData", &RobotModel::updateData, 
-           py::arg("q"), py::arg("qp") = nullptr, py::arg("qpp") = nullptr, 
-           py::arg("calc_jacobian") = false, py::arg("calc_jacobian_time_derivative") = false)
+      .def("updateData", [](RobotModel &self, const Eigen::VectorXd& q, std::optional<Eigen::VectorXd> qp, std::optional<Eigen::VectorXd> qpp, bool calc_jacobian, bool calc_jacobian_time_derivative) {
+          self.updateData(q, qp ? &(*qp) : nullptr, qpp ? &(*qpp) : nullptr, calc_jacobian, calc_jacobian_time_derivative);
+      }, py::arg("q"), py::arg("qp") = py::none(), py::arg("qpp") = py::none(), 
+         py::arg("calc_jacobian") = false, py::arg("calc_jacobian_time_derivative") = false)
       .def_property_readonly("joint_names", [](RobotModel &self) {
           const auto &names = self.getModel().names;
           // names[0] is the universe joint, skip it
