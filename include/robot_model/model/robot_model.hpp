@@ -18,7 +18,8 @@ namespace robot_model {
 // this is the main class that will be used by the user
 class RobotModel {
 public:
-    RobotModel(const std::string& path);
+    RobotModel(const std::string& input, bool is_xml = false);
+    static RobotModel fromXML(const std::string& xml_string);
 
     void updateData(const Eigen::VectorXd& q, 
                     const Eigen::VectorXd* qp = nullptr, 
@@ -84,6 +85,7 @@ private:
     Eigen::VectorXd qpp_;
 
     std::vector<Transmission> parseTransmissions(const std::string& path);
+    std::vector<Transmission> parseTransmissionsFromXML(const std::string& xml_content);
 };
 
 } // namespace robot_model

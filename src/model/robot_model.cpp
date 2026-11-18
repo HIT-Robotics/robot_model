@@ -13,35 +13,65 @@
 namespace robot_model {
 
 // constructor
-RobotModel::RobotModel(const std::string& path)
+RobotModel::RobotModel(const std::string& input, bool is_xml)
     : jacobian_valid_(false), jacobian_time_valid_(false)
 {
-    std::cout << "RobotModel: Loading path: " << path << std::endl;
-    // Check file extension
-    std::regex re(".+\\.[au]rdf$", std::regex_constants::icase);
-    if (!std::regex_match(path, re)) {
-        throw std::runtime_error("Expected to get an ardf or urdf file as robot description");
+    if (!is_xml && input.find("<robot") != std::string::npos) {
+        is_xml = true;
     }
 
-    // Generate urdf model
-    std::cout << "RobotModel: Parsing URDF..." << std::endl;
-    urdf_model_ = urdf::parseURDFFile(path);
-    if (!urdf_model_) {
-        throw std::runtime_error("Failed to parse URDF file: " + path);
-    }
+    std::vector<Transmission> transmissions;
 
-    // Generate pinocchio model
-    std::cout << "RobotModel: Building Pinocchio model..." << std::endl;
-    try {
-        pinocchio::urdf::buildModel(path, model_);
-    } catch (const std::exception& e) {
-        std::cerr << "RobotModel: Pinocchio failed: " << e.what() << std::endl;
-        throw;
+    if (is_xml) {
+        std::cout << "RobotModel: Loading from XML string..." << std::endl;
+
+        // Generate urdf model from XML string
+        std::cout << "RobotModel: Parsing URDF from XML string..." << std::endl;
+        urdf_model_ = urdf::parseURDF(input);
+        if (!urdf_model_) {
+            throw std::runtime_error("Failed to parse URDF from XML string");
+        }
+
+        // Generate pinocchio model from XML string
+        std::cout << "RobotModel: Building Pinocchio model from XML string..." << std::endl;
+        try {
+            pinocchio::urdf::buildModelFromXML(input, model_);
+        } catch (const std::exception& e) {
+            std::cerr << "RobotModel: Pinocchio failed: " << e.what() << std::endl;
+            throw;
+        }
+
+        // Parse transmissions from XML string
+        std::cout << "RobotModel: Parsing transmissions from XML string..." << std::endl;
+        transmissions = parseTransmissionsFromXML(input);
+    } else {
+        std::cout << "RobotModel: Loading path: " << input << std::endl;
+        // Check file extension
+        std::regex re(".+\\.[au]rdf$", std::regex_constants::icase);
+        if (!std::regex_match(input, re)) {
+            throw std::runtime_error("Expected to get an ardf or urdf file as robot description");
+        }
+
+        // Generate urdf model
+        std::cout << "RobotModel: Parsing URDF..." << std::endl;
+        urdf_model_ = urdf::parseURDFFile(input);
+        if (!urdf_model_) {
+            throw std::runtime_error("Failed to parse URDF file: " + input);
+        }
+
+        // Generate pinocchio model
+        std::cout << "RobotModel: Building Pinocchio model..." << std::endl;
+        try {
+            pinocchio::urdf::buildModel(input, model_);
+        } catch (const std::exception& e) {
+            std::cerr << "RobotModel: Pinocchio failed: " << e.what() << std::endl;
+            throw;
+        }
+
+        // Parse transmissions (Option C: Manual XML parsing)
+        std::cout << "RobotModel: Parsing transmissions..." << std::endl;
+        transmissions = parseTransmissions(input);
     }
-    
-    // Parse transmissions (Option C: Manual XML parsing)
-    std::cout << "RobotModel: Parsing transmissions..." << std::endl;
-    auto transmissions = parseTransmissions(path);
 
     // Generate constraints and get updated model
     std::cout << "RobotModel: Initializing constraints..." << std::endl;
@@ -65,14 +95,13 @@ RobotModel::RobotModel(const std::string& path)
     std::cout << "RobotModel: Construction finished." << std::endl;
 }
 
-// parse the transmission from the URDF file
-std::vector<Transmission> RobotModel::parseTransmissions(const std::string& path) {
-    std::vector<Transmission> transmissions;
-    tinyxml2::XMLDocument doc;
-    if (doc.LoadFile(path.c_str()) != tinyxml2::XML_SUCCESS) {
-        return transmissions;
-    }
+RobotModel RobotModel::fromXML(const std::string& xml_string) {
+    return RobotModel(xml_string, true);
+}
 
+namespace {
+std::vector<Transmission> parseTransmissionsFromDoc(tinyxml2::XMLDocument& doc) {
+    std::vector<Transmission> transmissions;
     tinyxml2::XMLElement* root = doc.RootElement();
     if (!root) return transmissions;
 
@@ -107,6 +136,25 @@ std::vector<Transmission> RobotModel::parseTransmissions(const std::string& path
         transmissions.push_back(trans);
     }
     return transmissions;
+}
+} // anonymous namespace
+
+// parse the transmission from the URDF file
+std::vector<Transmission> RobotModel::parseTransmissions(const std::string& path) {
+    tinyxml2::XMLDocument doc;
+    if (doc.LoadFile(path.c_str()) != tinyxml2::XML_SUCCESS) {
+        return {};
+    }
+    return parseTransmissionsFromDoc(doc);
+}
+
+// parse the transmission from the URDF XML string
+std::vector<Transmission> RobotModel::parseTransmissionsFromXML(const std::string& xml_content) {
+    tinyxml2::XMLDocument doc;
+    if (doc.Parse(xml_content.c_str()) != tinyxml2::XML_SUCCESS) {
+        return {};
+    }
+    return parseTransmissionsFromDoc(doc);
 }
 
 // update the data with the given joint configuration, velocity and acceleration

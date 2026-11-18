@@ -51,7 +51,8 @@ void exportRobotModel(py::module_ &m) {
 
   // robot model
   py::class_<RobotModel>(m, "RobotModel")
-      .def(py::init<const std::string &>())
+      .def(py::init<const std::string &, bool>(), py::arg("input"), py::arg("is_xml") = false)
+      .def_static("fromXML", &RobotModel::fromXML, py::arg("xml_string"))
       .def_property_readonly("joints", [](RobotModel &self) { return &self.getJoints(); }, py::return_value_policy::reference_internal)
       .def_property_readonly("constraints", [](RobotModel &self) { return &self.getConstraints(); }, py::return_value_policy::reference_internal)
       .def_property_readonly("limits", [](RobotModel &self) { return &self.getLimits(); }, py::return_value_policy::reference_internal)
