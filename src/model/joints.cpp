@@ -50,7 +50,7 @@ JointManager::JointManager(const pinocchio::Model& model,
     readJointDamping(urdf_model, model);
 
     // Store joint information (index and size) for all joints except the fixed base joint
-    for (size_t i = 1; i < model.joints.size(); ++i) {
+    for (size_t i = 1; i < model.njoints; ++i) {
         joint_info_[model.names[i]] = {model.joints[i].idx_v(), model.joints[i].nv()};
     }
 }
