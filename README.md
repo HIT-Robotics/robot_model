@@ -47,7 +47,7 @@ You must use the modified versions:
 
 Pinocchio must be rebuilt against the modified `urdfdom`.
 
-- pinocchio 3.9: <https://github.com/stack-of-tasks/pinocchio/tree/v3.9.0> (higher versions lead to errors when extracting joints and their ids)
+- pinocchio >3.9: <https://github.com/stack-of-tasks/pinocchio/tree/v3.9.0>
 
 ## Installation
 
