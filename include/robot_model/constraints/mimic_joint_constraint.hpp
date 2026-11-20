@@ -1,6 +1,7 @@
 #ifndef ROBOT_MODEL_CONSTRAINTS_MIMIC_JOINT_CONSTRAINT_HPP
 #define ROBOT_MODEL_CONSTRAINTS_MIMIC_JOINT_CONSTRAINT_HPP
 
+#include <pinocchio/fwd.hpp>
 #include "robot_model/constraints/constraint.hpp"
 #include <urdf_model/joint.h>
 

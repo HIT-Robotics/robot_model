@@ -1,6 +1,7 @@
 #ifndef ROBOT_MODEL_DYNAMICS_TREE_DYNAMICS_HPP
 #define ROBOT_MODEL_DYNAMICS_TREE_DYNAMICS_HPP
 
+#include <pinocchio/fwd.hpp>
 #include "robot_model/model/robot_model.hpp"
 #include <Eigen/Dense>
 

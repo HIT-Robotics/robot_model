@@ -13,6 +13,7 @@
 namespace robot_model {
 
 // constructor
+// make more modular
 RobotModel::RobotModel(const std::string& input, bool is_xml)
     : jacobian_valid_(false), jacobian_time_valid_(false)
 {

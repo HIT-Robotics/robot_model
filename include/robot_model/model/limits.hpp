@@ -1,6 +1,7 @@
 #ifndef ROBOT_MODEL_MODEL_LIMITS_HPP
 #define ROBOT_MODEL_MODEL_LIMITS_HPP
 
+#include <pinocchio/fwd.hpp>
 #include <Eigen/Core>
 #include <pinocchio/multibody/model.hpp>
 #include <pinocchio/multibody/data.hpp>

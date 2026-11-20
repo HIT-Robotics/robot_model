@@ -1,6 +1,7 @@
 #ifndef ROBOT_MODEL_MODEL_UTILS_HPP
 #define ROBOT_MODEL_MODEL_UTILS_HPP
 
+#include <pinocchio/fwd.hpp>
 #include <pinocchio/multibody/model.hpp>
 #include <vector>
 #include <string>

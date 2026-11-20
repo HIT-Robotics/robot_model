@@ -1,6 +1,7 @@
 #ifndef ROBOT_MODEL_MODEL_ROBOT_MODEL_HPP
 #define ROBOT_MODEL_MODEL_ROBOT_MODEL_HPP
 
+#include <pinocchio/fwd.hpp>
 #include "robot_model/constraints/constraint_manager.hpp"
 #include "robot_model/model/limits.hpp"
 #include "robot_model/model/joints.hpp"

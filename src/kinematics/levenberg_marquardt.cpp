@@ -1,6 +1,5 @@
 #include "robot_model/kinematics/levenberg_marquardt.hpp"
 #include "robot_model/model/joints.hpp"
-#include <iostream>
 #include <cmath>
 
 namespace robot_model {

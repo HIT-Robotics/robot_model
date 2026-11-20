@@ -1,6 +1,7 @@
 #ifndef ROBOT_MODEL_KINEMATICS_BODY_KINEMATICS_HPP
 #define ROBOT_MODEL_KINEMATICS_BODY_KINEMATICS_HPP
 
+#include <pinocchio/fwd.hpp>
 #include "robot_model/model/robot_model.hpp"
 #include <Eigen/Dense>
 #include <string>

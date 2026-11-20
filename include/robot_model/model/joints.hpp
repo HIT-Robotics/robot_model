@@ -1,6 +1,7 @@
 #ifndef ROBOT_MODEL_MODEL_JOINTS_HPP
 #define ROBOT_MODEL_MODEL_JOINTS_HPP
 
+#include <pinocchio/fwd.hpp>
 #include <Eigen/Dense>
 #include <vector>
 #include <string>

@@ -1,6 +1,7 @@
 #ifndef ROBOT_MODEL_CONSTRAINTS_FIXED_CONSTRAINT_HPP
 #define ROBOT_MODEL_CONSTRAINTS_FIXED_CONSTRAINT_HPP
 
+#include <pinocchio/fwd.hpp>
 #include <Eigen/Dense>
 #include <pinocchio/multibody/model.hpp>
 #include <pinocchio/multibody/data.hpp>

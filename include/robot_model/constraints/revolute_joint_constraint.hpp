@@ -1,6 +1,7 @@
 #ifndef ROBOT_MODEL_CONSTRAINTS_REVOLUTE_JOINT_CONSTRAINT_HPP
 #define ROBOT_MODEL_CONSTRAINTS_REVOLUTE_JOINT_CONSTRAINT_HPP
 
+#include <pinocchio/fwd.hpp>
 #include "robot_model/constraints/fixed_constraint.hpp"
 
 namespace robot_model {

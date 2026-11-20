@@ -5,7 +5,6 @@
 #include "robot_model/constraints/mimic_joint_constraint.hpp"
 #include <urdf_model/constraint.h>
 #include <urdf_model/joint.h>
-#include <iostream>
 
 namespace robot_model {
 

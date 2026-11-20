@@ -1,10 +1,12 @@
 #ifndef ROBOT_MODEL_CONSTRAINTS_CONSTRAINT_MANAGER_HPP
 #define ROBOT_MODEL_CONSTRAINTS_CONSTRAINT_MANAGER_HPP
 
+#include <pinocchio/fwd.hpp>
 #include "robot_model/constraints/constraint.hpp"
 #include <urdf_model/model.h>
 #include <vector>
 #include <memory>
+#include <iostream>
 
 namespace robot_model {
 
